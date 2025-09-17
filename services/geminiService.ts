@@ -2,14 +2,21 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import { WordEntry } from '../types';
 
-// FIX: Per coding guidelines, the API key must come from process.env.API_KEY.
-// We assume the build environment is configured to make this available.
-if (!process.env.API_KEY) {
+// This declaration informs TypeScript that a global `process` object will be available
+// in the execution environment, which is expected to provide the API key.
+declare const process: any;
+
+// The API key is obtained from the environment variable `process.env.API_KEY`.
+// This is a requirement of the execution environment.
+const apiKey = process.env.API_KEY as string;
+
+if (!apiKey) {
+    // This message will be visible in the browser's developer console.
     console.error("API_KEY environment variable not set. This service will not function.");
 }
 
 // FIX: Initialize GoogleGenAI with a named apiKey parameter as required by the guidelines.
-const ai = new GoogleGenAI({apiKey: process.env.API_KEY});
+const ai = new GoogleGenAI({apiKey: apiKey});
 
 /**
  * Generates a new, creative "love dialect" word and its meaning.

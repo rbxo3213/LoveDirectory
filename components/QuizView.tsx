@@ -1,5 +1,6 @@
+
 // FIX: Full implementation of the QuizView component.
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { WordEntry } from '../types';
 import Button from './common/Button';
 
@@ -20,7 +21,7 @@ const QuizView: React.FC<QuizViewProps> = ({ words }) => {
 
   const shuffledWords = useMemo(() => [...words].sort(() => 0.5 - Math.random()), [words]);
 
-  const generateQuestion = (questionIndex: number) => {
+  const generateQuestion = useCallback((questionIndex: number) => {
     if (questionIndex >= questions.length) return;
     
     const question = questions[questionIndex];
@@ -35,7 +36,7 @@ const QuizView: React.FC<QuizViewProps> = ({ words }) => {
     setOptions(allOptions);
     setSelectedAnswer(null);
     setIsCorrect(null);
-  };
+  }, [questions, shuffledWords]);
   
   const startQuiz = () => {
     const quizQuestions = shuffledWords.slice(0, Math.min(QUIZ_LENGTH, shuffledWords.length));
@@ -49,7 +50,7 @@ const QuizView: React.FC<QuizViewProps> = ({ words }) => {
     if (quizState === 'playing' && questions.length > 0) {
       generateQuestion(currentQuestionIndex);
     }
-  }, [quizState, currentQuestionIndex, questions]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [quizState, currentQuestionIndex, questions, generateQuestion]);
 
   const handleAnswer = (answer: string) => {
     if (selectedAnswer) return;
