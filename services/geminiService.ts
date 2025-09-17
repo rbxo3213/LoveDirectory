@@ -2,13 +2,13 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import { WordEntry } from '../types';
 
-// This declaration informs TypeScript that a global `process` object will be available
-// in the execution environment, which is expected to provide the API key.
+// This declares the `process` variable, satisfying TypeScript's type checker.
+// The execution environment is expected to provide `process.env.API_KEY` at runtime.
 declare const process: any;
 
 // The API key is obtained from the environment variable `process.env.API_KEY`.
-// This is a requirement of the execution environment.
 const apiKey = process.env.API_KEY as string;
+
 
 if (!apiKey) {
     // This message will be visible in the browser's developer console.
