@@ -1,18 +1,17 @@
-// FIX: Full implementation of geminiService, resolving module errors.
+// Add this declaration to inform TypeScript that 'process' exists globally.
+declare const process: any;
+
 import { GoogleGenAI, Type } from "@google/genai";
 import { WordEntry } from '../types';
 
-// This declares the `process` variable, satisfying TypeScript's type checker.
-// The execution environment is expected to provide `process.env.API_KEY` at runtime.
-declare const process: any;
-
-// The API key is obtained from the environment variable `process.env.API_KEY`.
-const apiKey = process.env.API_KEY as string;
-
+// The API key is obtained from the environment variable `process.env.API_KEY`
+// as per the strict coding guidelines.
+const apiKey = process.env.API_KEY;
 
 if (!apiKey) {
     // This message will be visible in the browser's developer console.
     console.error("API_KEY environment variable not set. This service will not function.");
+    throw new Error("An API Key must be set when running in a browser");
 }
 
 // FIX: Initialize GoogleGenAI with a named apiKey parameter as required by the guidelines.
