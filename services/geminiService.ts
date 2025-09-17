@@ -1,11 +1,11 @@
-// Add this declaration to inform TypeScript that 'process' exists globally.
-declare const process: any;
-
 import { GoogleGenAI, Type } from "@google/genai";
 import { WordEntry } from '../types';
 
-// The API key is obtained from the environment variable `process.env.API_KEY`
-// as per the strict coding guidelines.
+// This is required to inform TypeScript that the 'process' object will be available in the build environment.
+declare const process: any;
+
+// The API key is obtained from the environment variable `process.env.API_KEY`.
+// This variable MUST be set in your Vercel project settings.
 const apiKey = process.env.API_KEY;
 
 if (!apiKey) {
